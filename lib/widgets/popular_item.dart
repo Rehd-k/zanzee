@@ -43,7 +43,7 @@ class PopularItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(data["image"]),
+          image: NetworkImage(data["image"]),
         ),
       ),
     );

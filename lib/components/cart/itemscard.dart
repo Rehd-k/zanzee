@@ -62,7 +62,7 @@ Column _buildActionButtons(item) {
 ClipRRect _buildImage(Size screenSize, image) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(8.0),
-    child: Image.asset(
+    child: Image.network(
       image,
       fit: BoxFit.fill,
       width: screenSize.width * .2,

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 List populars = [
   {
     "id": "1",
-    "image": "images/suya.jpg",
+    "image": "https://ik.imagekit.io/t2ahazwe2gu/zanzee/images/suya_oc7JqdPXt.jpg?updatedAt=1715863133650&tr=w-1080%2Ch-1920%2Cfo-auto",
     "is_favorited": true,
     "price": "3000",
     "name": "Beef Suya",
@@ -17,7 +17,7 @@ List populars = [
   },
   {
     "id": "2",
-    "image": "images/chickenshawama.jpg",
+    "image": "https://ik.imagekit.io/t2ahazwe2gu/zanzee/images/chickenshawama_Wabz_h478.jpg?updatedAt=1715863132025",
     "is_favorited": false,
     "name": "Greeny Salad",
     "price": "\$8.50",

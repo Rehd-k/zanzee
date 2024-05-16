@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zanzeeapp/pages/menu.dart';
 import 'package:zanzeeapp/providers/cartprovider.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
@@ -119,6 +120,7 @@ class CartPage extends StatelessWidget {
   }
 
   handlePaymentInitialization(BuildContext context) async {
+    var uuid = const Uuid();
     final Customer customer = Customer(
         name: "Flutterwave Developer",
         phoneNumber: "1234566677777",
@@ -127,8 +129,8 @@ class CartPage extends StatelessWidget {
         context: context,
         publicKey: "FLWPUBK_TEST-11c145c78c299e76279a6a8b7fe585f8-X",
         currency: "NGN",
-        redirectUrl: "add-your-redirect-url-here",
-        txRef: "add-your-unique-reference-here",
+        redirectUrl: "google.com",
+        txRef: uuid.v4(),
         amount: "3000",
         customer: customer,
         paymentOptions:
@@ -150,7 +152,7 @@ class CartPage extends StatelessWidget {
           content: Container(
             margin: const EdgeInsets.fromLTRB(30, 20, 30, 20),
             width: double.infinity,
-            height: 50,
+            height: MediaQuery.of(context).size.height,
             child: Text(message),
           ),
         );

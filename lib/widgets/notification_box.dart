@@ -1,6 +1,8 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:multi_tap_detector/multi_tap_detector.dart';
+import 'package:zanzeeapp/pages/adminpage.dart';
 
 class NotificationBox extends StatelessWidget {
   const NotificationBox({Key? key, this.number = 0, this.onTap})
@@ -11,18 +13,30 @@ class NotificationBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: Colors.grey.withOpacity(.3),
-          ),
+    return MultiTapDetector(
+      taps: 4,
+      onMultiTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminPage()),
+        );
+      },
+    
+      maxDurationBetweenTaps: const Duration(milliseconds: 300),
+      child: notfiHolder(),
+    );
+  }
+
+  Container notfiHolder() {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.grey.withOpacity(.3),
         ),
-        child: number > 0 ? _buildNofiedIcon() : _buildIcon(),
       ),
+      child: number > 0 ? _buildNofiedIcon() : _buildIcon(),
     );
   }
 
