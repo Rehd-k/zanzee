@@ -28,7 +28,7 @@ DataTable buildTable() {
                   },
                 ),
                 InkWell(
-                  child: const Icon(Icons.fingerprint),
+                  child: const Icon(Icons.done),
                   onTap: () {
                     // Edit button action
                   },
