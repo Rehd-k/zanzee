@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510269203018",
+    "project_id": "zanzee-5d894",
+    "storage_bucket": "zanzee-5d894.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510269203018:android:279a5d14954babb0cb3cb3",
+        "android_client_info": {
+          "package_name": "com.example.zanzeeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlIEGG8fsd-vclUNT6DFcBR5e7wnseF0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
