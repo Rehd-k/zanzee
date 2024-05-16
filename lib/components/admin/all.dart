@@ -12,25 +12,25 @@ DataTable buildTable() {
       )),
       DataColumn(label: Text('Action')),
     ],
-    rows:  <DataRow>[
+    rows: <DataRow>[
       DataRow(
         cells: <DataCell>[
           const DataCell(Text('John')),
           const DataCell(Text('5')),
           const DataCell(Text('45000')),
           DataCell(
-            Row(
+            Column(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
+                InkWell(
+                  child: const Icon(Icons.fingerprint),
+                  onTap: () {
                     // Edit button action
                   },
                 ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    // Delete button action
+                InkWell(
+                  child: const Icon(Icons.fingerprint),
+                  onTap: () {
+                    // Edit button action
                   },
                 ),
               ],
