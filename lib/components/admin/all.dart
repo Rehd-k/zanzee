@@ -1,51 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:zanzeeapp/components/admin/orders.dart';
+import 'package:zanzeeapp/theme/color.dart';
 
-DataTable buildTable() {
-  return DataTable(
-    columns: const <DataColumn>[
-      DataColumn(label: Text('Name')),
-      DataColumn(label: Text('Table')),
-      DataColumn(
-          label: Text(
-        'Amount',
-        style: TextStyle(overflow: TextOverflow.ellipsis),
-      )),
-      DataColumn(label: Text('Action')),
-    ],
-    rows: <DataRow>[
-      DataRow(
-        cells: <DataCell>[
-          const DataCell(Text('John')),
-          const DataCell(Text('5')),
-          const DataCell(Text('45000')),
-          DataCell(
-            Column(
-              children: [
-                InkWell(
-                  child: const Icon(Icons.fingerprint),
-                  onTap: () {
-                    // Edit button action
-                  },
-                ),
-                InkWell(
-                  child: const Icon(Icons.done),
-                  onTap: () {
-                    // Edit button action
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      const DataRow(
-        cells: <DataCell>[
-          DataCell(Text('Jane Doe')),
-          DataCell(Text('Table 2')),
-          DataCell(Text('50.00')),
-          DataCell(Text('Delete')),
-        ],
-      ),
-    ],
-  );
+DataTable buildTable(BuildContext context, List data) {
+  return DataTable(columns: createHeaders, rows: createRow(context, data),headingRowColor: WidgetStateProperty.resolveWith(
+                        (states) => primary
+                      ));
+}
+
+List<DataRow> createRow(BuildContext context, List data) {
+  return data
+      .map(
+        (e) => DataRow(
+          onLongPress: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  OrderPage(id: e['cartid'])));
+          },
+          cells: <DataCell>[
+            DataCell(Text(e['name'])),
+            DataCell(Text(e['table'])),
+            DataCell(Text(e['totalAmount'])),
+          ],
+        ),
+      )
+      .toList();
+}
+
+List<DataColumn> get createHeaders {
+  return const <DataColumn>[
+    DataColumn(label: Text('Name')),
+    DataColumn(label: Text('Table')),
+    DataColumn(
+        label: Text(
+      'Amount',
+    ))
+  ];
 }

@@ -14,6 +14,9 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController tableNumberController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(),
       body: Provider.of<CartProvider>(context).cart.isNotEmpty
@@ -88,12 +91,45 @@ class CartPage extends StatelessWidget {
             ),
       bottomNavigationBar: Provider.of<CartProvider>(context).cart.isNotEmpty
           ? Consumer<CartProvider>(
-              builder: (context, value, child) => InkWell(
-                    onTap: () {
-                      handlePaymentInitialization(context);
-                    },
-                    child: cartButton(context, value),
-                  ))
+              builder: (context, value, child) => Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Name :'),
+                        TextField(
+                          controller: nameController,
+                          textAlign: TextAlign.left,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Please input a name',
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Table Number :'),
+                        TextField(
+                          controller: tableNumberController,
+                          textAlign: TextAlign.left,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Table number closest to you',
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        handlePaymentInitialization(context);
+                      },
+                      child: cartButton(context, value),
+                    )
+                  ]))
           : null,
     );
   }
