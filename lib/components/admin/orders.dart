@@ -16,20 +16,22 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
-    print(widget.order);
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-              children: List.generate(
-                  widget.order['cart'].length.toInt(),
-                  (index) => cartItemsCard(
-                      context, widget.order['cart'][index], true))),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Column(
+                children: List.generate(
+                    widget.order['cart'].length.toInt(),
+                    (index) => cartItemsCard(
+                        context, widget.order['cart'][index], true))),
+          ],
+        ),
       ),
       bottomNavigationBar: InkWell(
           onTap: () {

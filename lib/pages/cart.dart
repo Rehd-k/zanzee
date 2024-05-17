@@ -80,57 +80,63 @@ class CartPage extends StatelessWidget {
                                   (index) => cartItemsCard(context,
                                       value.cart[index].toJson(), false))),
                         ),
-                        Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Name :'),
-                              const SizedBox(width: 70),
-                              Expanded(
-                                  child: TextField(
-                                controller: nameController,
-                                textAlign: TextAlign.left,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Please input a name',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                ),
-                              ))
-                            ],
-                          ),
-                          const Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Table Number :'),
-                              const SizedBox(width: 50),
-                              Expanded(
-                                  child: TextField(
-                                controller: tableNumberController,
-                                textAlign: TextAlign.left,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Table number closest to you',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                ),
-                              ))
-                            ],
-                          ),
-                        ])
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        buildTextHolder(nameController, tableNumberController)
                       ])))
           : emptyCart(context),
       bottomNavigationBar: Provider.of<CartProvider>(context).cart.isNotEmpty
           ? Consumer<CartProvider>(
               builder: (context, value, child) => InkWell(
                     onTap: () {
-                      // handlePaymentInitialization(context);
-                      makeOrder(value);
+                      handlePaymentInitialization(context, makeOrder, value);
                     },
                     child:
                         buttomButton(context, value.totalPrice, 'Make Payment'),
                   ))
           : null,
     );
+  }
+
+  Column buildTextHolder(TextEditingController nameController,
+      TextEditingController tableNumberController) {
+    return Column(children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Name :'),
+          const SizedBox(width: 100),
+          Expanded(
+              child: TextField(
+            controller: nameController,
+            textAlign: TextAlign.left,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Please input a name',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ))
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Table Number :'),
+          const SizedBox(width: 50),
+          Expanded(
+              child: TextField(
+            controller: tableNumberController,
+            textAlign: TextAlign.left,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Table number closest to you',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ))
+        ],
+      ),
+    ]);
   }
 
   Center emptyCart(BuildContext context) {
@@ -161,7 +167,7 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  handlePaymentInitialization(BuildContext context) async {
+  handlePaymentInitialization(BuildContext context, makeOrder, value) async {
     var uuid = const Uuid();
     final Customer customer = Customer(
         name: "Flutterwave Developer",
@@ -180,6 +186,7 @@ class CartPage extends StatelessWidget {
         customization: Customization(title: "My Payment"),
         isTestMode: true);
     final ChargeResponse response = await flutterwave.charge();
+    makeOrder(value);
     if (context.mounted) showLoading(context, response.toString());
   }
 

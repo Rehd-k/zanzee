@@ -6,7 +6,7 @@ DataTable buildTable(BuildContext context, List data) {
   return DataTable(
       columns: createHeaders,
       rows: createRow(context, data),
-      headingRowColor: WidgetStateProperty.resolveWith((states) => primary));
+      headingRowColor: MaterialStateProperty.resolveWith((states) => primary));
 }
 
 List<DataRow> createRow(BuildContext context, List data) {

@@ -8,6 +8,7 @@ class CartProvider with ChangeNotifier {
   int price = 0;
   int amount = 0;
   int totalPrice = 0;
+  bool isbuttonDisabled = false;
 
   get populateCartToSend {
     for (var element in cart) {
@@ -111,6 +112,15 @@ class CartProvider with ChangeNotifier {
         }
       }
     }
+  }
+
+  handleButtonState(nameController, tableNumberController) {
+    if (nameController.text == '' || tableNumberController.text == '') {
+      isbuttonDisabled = true;
+    } else {
+      isbuttonDisabled = false;
+    }
+    notifyListeners();
   }
 
   emptyCart() {

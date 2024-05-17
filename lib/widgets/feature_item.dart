@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zanzeeapp/pages/details.dart';
 import 'package:zanzeeapp/theme/color.dart';
 import 'package:zanzeeapp/widgets/custom_image.dart';
 
@@ -13,7 +14,12 @@ class FeaturedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetailsPage(itemId: data.id)));
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(10),
@@ -53,7 +59,7 @@ class FeaturedItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         Text(
-          data["price"],
+          '₦ ${data["price"].toString()}',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

@@ -7,7 +7,7 @@ Padding mainHeader() {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Hello Sangvaleap!",
+            "Hello!",
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
           ),
           CircleAvatar()

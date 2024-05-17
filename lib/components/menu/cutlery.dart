@@ -19,7 +19,7 @@ cutlery(List selectedCutlery, Function handleAddOnChangeChange, String option,
           child: Container(),
         ),
         Checkbox(
-          fillColor: exists ? null : WidgetStateProperty.all(Colors.grey),
+          fillColor: exists ? null : MaterialStateProperty.all(Colors.grey),
           value: selectedCutlery.contains(option),
           onChanged: (value) {
             exists ? handleAddOnChangeChange(option) : null;

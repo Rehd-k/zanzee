@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zanzeeapp/components/appbar.dart';
@@ -16,7 +17,7 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   int catIndex = 0;
-
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   void selectCat(index) {
     setState(() {
       catIndex = index;
@@ -44,7 +45,7 @@ class _ExplorePageState extends State<ExplorePage> {
             const SizedBox(
               height: 20,
             ),
-            buildAdsImage(),
+            buildAdsImage(firestore),
           ],
         ),
       ),

@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zanzeeapp/components/appbar.dart';
 import 'package:zanzeeapp/theme/color.dart';
-import 'package:zanzeeapp/utils/data.dart';
 
 import 'package:zanzeeapp/widgets/feature_item.dart';
 
@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   int catIndex = 0;
 
   void selectCat(index) {
@@ -33,11 +34,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: buildAppBar(),
-      body: _buildBody(selectCat, catIndex),
+      body: _buildBody(selectCat, catIndex, firestore),
     );
   }
 
-  _buildBody(selectCat, catIndex) {
+  _buildBody(selectCat, catIndex, firestore) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 25,
           ),
-          buildAdsImage(),
+          buildAdsImage(firestore),
           const SizedBox(
             height: 25,
           ),
@@ -83,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 5,
           ),
-          buildPopulars(populars),
+          buildPopulars(firestore),
           const SizedBox(
             height: 20,
           ),
@@ -114,11 +115,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildFeatured() {
-    return Column(
-      children: List.generate(
-        featured.length,
-        (index) => FeaturedItem(data: featured[index]),
-      ),
-    );
+    return StreamBuilder(
+        stream: firestore
+            .collection('products')
+            .where('is_featured', isEqualTo: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return Column(
+              children: List.generate(
+                snapshot.data!.docs.length,
+                (index) => FeaturedItem(data: snapshot.data!.docs[index]),
+              ),
+            );
+          }
+        });
   }
 }

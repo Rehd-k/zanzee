@@ -76,7 +76,9 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
       selectedOption = menuItemG["options"][0];
       addUpPrices();
       return menuItemG;
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -126,8 +128,8 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
 
   IconButton _buildLeading(BuildContext context) {
     return IconButton(
-        style:
-            ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.white)),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white)),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -139,7 +141,7 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
         padding: const EdgeInsets.only(right: 10),
         child: IconButton(
             style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(Colors.white)),
+                backgroundColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {},
             icon: const Icon(Icons.favorite_outline)));
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zanzeeapp/pages/details.dart';
 import 'package:zanzeeapp/theme/color.dart';
 
 import 'favorite_box.dart';
@@ -9,28 +10,36 @@ class PopularItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 15),
-      height: 170,
-      width: 220,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 10,
-            child: _buildItemImage(),
-          ),
-          Positioned(
-            top: 0,
-            right: 5,
-            child: FavoriteBox(
-              isFavorited: data["is_favorited"],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProductDetailsPage(itemId: data.id)));
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 15),
+        height: 170,
+        width: 220,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 10,
+              child: _buildItemImage(),
             ),
-          ),
-          Positioned(
-            top: 140,
-            child: _buildItemInfo(),
-          )
-        ],
+            Positioned(
+              top: 0,
+              right: 5,
+              child: FavoriteBox(
+                isFavorited: data["is_favorited"],
+              ),
+            ),
+            Positioned(
+              top: 140,
+              child: _buildItemInfo(),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -70,7 +79,7 @@ class PopularItem extends StatelessWidget {
                 width: 5,
               ),
               Text(
-                data["price"],
+                '₦  ${data["price"].toString()}',
                 style: const TextStyle(
                   fontSize: 14,
                   color: primary,

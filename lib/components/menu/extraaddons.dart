@@ -23,7 +23,7 @@ extraAddons(List selectedExtra, handleAddOnChangeChange, Map options, int index,
           style: TextStyle(color: exists ? Colors.black : Colors.grey),
         ),
         Checkbox(
-          fillColor: exists ? null : WidgetStateProperty.all(Colors.grey),
+          fillColor: exists ? null : MaterialStateProperty.all(Colors.grey),
           value: selectedExtra.contains(options),
           onChanged: (value) {
             exists ? handleAddOnChangeChange(options) : null;

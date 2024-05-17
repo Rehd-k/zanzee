@@ -9,7 +9,7 @@ class SilverHeader extends StatelessWidget {
     return SliverAppBar(
       leading: IconButton(
           style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colors.white)),
+              backgroundColor: MaterialStateProperty.all(Colors.white)),
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
@@ -29,7 +29,7 @@ class SilverHeader extends StatelessWidget {
             children: [
               IconButton(
                   style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.white)),
+                      backgroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () {},
                   icon: const Icon(Icons.favorite_outline)),
             ],
