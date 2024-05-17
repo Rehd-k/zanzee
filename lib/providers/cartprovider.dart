@@ -4,9 +4,17 @@ import '../utils/models.dart';
 
 class CartProvider with ChangeNotifier {
   List<CartModel> cart = [];
+  List cartToSend = [];
   int price = 0;
   int amount = 0;
   int totalPrice = 0;
+
+  get populateCartToSend {
+    for (var element in cart) {
+      cartToSend.add(element.toJson());
+    }
+    return cartToSend;
+  }
 
   add(String id, String name, int price, String image, String options,
       List extras, List cutleries, int amount) {
@@ -106,8 +114,12 @@ class CartProvider with ChangeNotifier {
   }
 
   emptyCart() {
+    cartToSend.clear();
+    price = 0;
+    amount = 0;
+    totalPrice = 0;
     cart.clear();
     notifyListeners();
-    addUpPrices();
+    // addUpPrices();
   }
 }

@@ -76,9 +76,7 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
       selectedOption = menuItemG["options"][0];
       addUpPrices();
       return menuItemG;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
@@ -128,8 +126,8 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
 
   IconButton _buildLeading(BuildContext context) {
     return IconButton(
-        style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.white)),
+        style:
+            ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.white)),
         onPressed: () {
           Navigator.of(context).pop();
         },

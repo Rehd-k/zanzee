@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zanzeeapp/providers/cartprovider.dart';
 import 'package:zanzeeapp/theme/color.dart';
 
-cartItemsCard(BuildContext context, item) {
+cartItemsCard(BuildContext context, item, bool isFromOrder) {
   Size screenSize = MediaQuery.of(context).size;
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 10),
@@ -18,14 +18,14 @@ cartItemsCard(BuildContext context, item) {
         _buildDetails(item),
         SizedBox(
           height: double.infinity,
-          child: _buildActionButtons(item),
+          child: _buildActionButtons(item, isFromOrder),
         )
       ],
     ),
   );
 }
 
-Column _buildActionButtons(item) {
+Column _buildActionButtons(item, isFromOrder) {
   return Column(children: [
     Expanded(
         child: SizedBox(
@@ -36,22 +36,35 @@ Column _buildActionButtons(item) {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Consumer<CartProvider>(
-                builder: (context, value, child) => IconButton(
-                    onPressed: () {
-                      value.decreaseAmout(item["id"]);
-                    },
-                    icon: const Icon(Icons.remove_circle))),
+            Container(
+              child: isFromOrder
+                  ? null
+                  : Consumer<CartProvider>(
+                      builder: (context, value, child) => IconButton(
+                          onPressed: () {
+                            value.decreaseAmout(item["id"]);
+                          },
+                          icon: const Icon(Icons.remove_circle))),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: Text(item["amount"].toString()),
+              child: Text(
+                item["amount"].toString(),
+                style: TextStyle(
+                    fontSize: isFromOrder ? 30 : null,
+                    fontWeight: isFromOrder ? FontWeight.bold : null),
+              ),
             ),
-            Consumer<CartProvider>(
-                builder: (context, value, child) => IconButton(
-                    onPressed: () {
-                      value.increaseAmout(item["id"]);
-                    },
-                    icon: const Icon(Icons.add_circle)))
+            Container(
+              child: isFromOrder
+                  ? null
+                  : Consumer<CartProvider>(
+                      builder: (context, value, child) => IconButton(
+                          onPressed: () {
+                            value.increaseAmout(item["id"]);
+                          },
+                          icon: const Icon(Icons.add_circle))),
+            )
           ],
         ),
       ),

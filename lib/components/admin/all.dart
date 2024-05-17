@@ -3,9 +3,10 @@ import 'package:zanzeeapp/components/admin/orders.dart';
 import 'package:zanzeeapp/theme/color.dart';
 
 DataTable buildTable(BuildContext context, List data) {
-  return DataTable(columns: createHeaders, rows: createRow(context, data),headingRowColor: WidgetStateProperty.resolveWith(
-                        (states) => primary
-                      ));
+  return DataTable(
+      columns: createHeaders,
+      rows: createRow(context, data),
+      headingRowColor: WidgetStateProperty.resolveWith((states) => primary));
 }
 
 List<DataRow> createRow(BuildContext context, List data) {
@@ -13,10 +14,8 @@ List<DataRow> createRow(BuildContext context, List data) {
       .map(
         (e) => DataRow(
           onLongPress: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>  OrderPage(id: e['cartid'])));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => OrderPage(order: e)));
           },
           cells: <DataCell>[
             DataCell(Text(e['name'])),

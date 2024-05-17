@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,7 @@ import 'package:zanzeeapp/providers/cartprovider.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:zanzeeapp/theme/color.dart';
 
+import '../components/bottomButton.dart';
 import '../components/cart/itemscard.dart';
 
 class CartPage extends StatelessWidget {
@@ -17,141 +19,145 @@ class CartPage extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController tableNumberController = TextEditingController();
 
+    makeOrder(CartProvider value) {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      Map<String, dynamic> order = {
+        "name": nameController.text,
+        "status": "pending",
+        "table": tableNumberController.text,
+        "totalAmount": value.totalPrice.toString(),
+        'cart': value.populateCartToSend
+      };
+
+      firestore
+          .collection('orders')
+          .add(order)
+          .then((gIvenvalue) => value.emptyCart());
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: Provider.of<CartProvider>(context).cart.isNotEmpty
           ? SingleChildScrollView(
               child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Cart',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w800)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Divider(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Items in your Cart',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
+                        const Text('Cart',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w800)),
+                        const SizedBox(
+                          height: 20,
                         ),
-                        TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              '+ Add More',
-                              // style: TextStyle(color: primary),
-                            ))
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Consumer<CartProvider>(
-                      builder: (context, value, child) => Column(
-                          children: List.generate(
-                              value.cart.length.toInt(),
-                              (index) => cartItemsCard(
-                                  context, value.cart[index].toJson()))),
-                    )
-                  ]),
-            ))
-          : Center(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  const Icon(FontAwesomeIcons.hourglass),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  const Text('What !, your cart is empty'),
-                  TextButton(
-                      onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MenuPage(),
+                        const Divider(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Items in your Cart',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
                             ),
+                            TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  '+ Add More',
+                                  // style: TextStyle(color: primary),
+                                ))
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Consumer<CartProvider>(
+                          builder: (context, value, child) => Column(
+                              children: List.generate(
+                                  value.cart.length.toInt(),
+                                  (index) => cartItemsCard(context,
+                                      value.cart[index].toJson(), false))),
+                        ),
+                        Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Name :'),
+                              const SizedBox(width: 70),
+                              Expanded(
+                                  child: TextField(
+                                controller: nameController,
+                                textAlign: TextAlign.left,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Please input a name',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                ),
+                              ))
+                            ],
                           ),
-                      child: const Text(
-                        'Lets fix that here',
-                        style: TextStyle(color: primary),
-                      ))
-                ],
-              ),
-            ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Table Number :'),
+                              const SizedBox(width: 50),
+                              Expanded(
+                                  child: TextField(
+                                controller: tableNumberController,
+                                textAlign: TextAlign.left,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Table number closest to you',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                ),
+                              ))
+                            ],
+                          ),
+                        ])
+                      ])))
+          : emptyCart(context),
       bottomNavigationBar: Provider.of<CartProvider>(context).cart.isNotEmpty
           ? Consumer<CartProvider>(
-              builder: (context, value, child) => Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Name :'),
-                        TextField(
-                          controller: nameController,
-                          textAlign: TextAlign.left,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Please input a name',
-                            hintStyle: TextStyle(color: Colors.grey),
-                          ),
-                        )
-                      ],
-                    ),
-                    const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Table Number :'),
-                        TextField(
-                          controller: tableNumberController,
-                          textAlign: TextAlign.left,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Table number closest to you',
-                            hintStyle: TextStyle(color: Colors.grey),
-                          ),
-                        )
-                      ],
-                    ),
-                    InkWell(
-                      onTap: () {
-                        handlePaymentInitialization(context);
-                      },
-                      child: cartButton(context, value),
-                    )
-                  ]))
+              builder: (context, value, child) => InkWell(
+                    onTap: () {
+                      // handlePaymentInitialization(context);
+                      makeOrder(value);
+                    },
+                    child:
+                        buttomButton(context, value.totalPrice, 'Make Payment'),
+                  ))
           : null,
     );
   }
 
-  Padding cartButton(BuildContext context, CartProvider value) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(
-          height: 45,
-          width: MediaQuery.of(context).size.width * 0.15,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5), color: Colors.black),
-          child: Center(
-            child: Text(
-              "Make Payment - ₦${value.totalPrice}",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )),
+  Center emptyCart(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 80,
+          ),
+          const Icon(FontAwesomeIcons.hourglass),
+          const SizedBox(
+            height: 40,
+          ),
+          const Text('What !, your cart is empty'),
+          TextButton(
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MenuPage(),
+                    ),
+                  ),
+              child: const Text(
+                'Lets fix that here',
+                style: TextStyle(color: primary),
+              ))
+        ],
+      ),
     );
   }
 
@@ -175,8 +181,6 @@ class CartPage extends StatelessWidget {
         isTestMode: true);
     final ChargeResponse response = await flutterwave.charge();
     if (context.mounted) showLoading(context, response.toString());
-
-    print("${response.toJson()}");
   }
 
   Future<void> showLoading(BuildContext context, String message) {
